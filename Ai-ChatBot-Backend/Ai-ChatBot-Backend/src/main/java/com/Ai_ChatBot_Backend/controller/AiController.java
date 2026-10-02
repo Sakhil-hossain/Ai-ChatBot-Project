@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AiController {
 
     private final ChatService chatService;
+
     @PostMapping
     public ResponseDto chat(@RequestBody RequestDto request){
 
