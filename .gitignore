@@ -1,0 +1,27 @@
+# Java
+target/
+*.class
+
+# IntelliJ
+.idea/
+*.iml
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+
+# React / Node
+node_modules/
+dist/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+
+# Operating System
+.DS_Store
+Thumbs.db
