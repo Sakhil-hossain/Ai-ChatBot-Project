@@ -692,3 +692,32 @@
     margin-top: 7px;
   }
 }
+
+
+
+/* ==================================================
+   COPY RESPONSE BUTTON
+   ================================================== */
+
+.copy-btn {
+  margin-top: 8px;
+
+  padding: 3px 8px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: white;
+
+  background: rgba(255, 255, 255, 0.08);
+}

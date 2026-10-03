@@ -161,6 +161,19 @@ function App() {
 
 
   // =====================================================
+// 9. COPY AI RESPONSE
+// =====================================================
+
+const handleCopy = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (error) {
+    console.error("Copy failed:", error);
+  }
+};
+
+
+  // =====================================================
   // 9. USER INTERFACE
   // =====================================================
 
@@ -251,21 +264,26 @@ function App() {
 
               <div className={`message ${msg.sender}`}>
 
-                {/* AI messages support Markdown */}
+               {msg.sender === "ai" ? (
+               <>
+               <ReactMarkdown>
+                {msg.text}
+                 </ReactMarkdown>
 
-                {msg.sender === "ai" ? (
+                {/* Copy AI response */}
+                <button
+               type="button"
+                 className="copy-btn"
+                onClick={() => handleCopy(msg.text)}
+                >
+              Copy
+              </button>
+              </>
+              ) : (
+              msg.text
+              )}
 
-                  <ReactMarkdown>
-                    {msg.text}
-                  </ReactMarkdown>
-
-                ) : (
-
-                  msg.text
-
-                )}
-
-              </div>
+            </div>
 
 
               {/* User Avatar */}
