@@ -531,3 +531,50 @@
     margin-top: 7px;
   }
 }
+
+
+/* AI Markdown formatting */
+
+.message.ai p {
+  margin: 0 0 10px;
+}
+
+.message.ai p:last-child {
+  margin-bottom: 0;
+}
+
+.message.ai ul,
+.message.ai ol {
+  margin: 10px 0;
+  padding-left: 22px;
+}
+
+.message.ai li {
+  margin-bottom: 7px;
+}
+
+.message.ai strong {
+  color: #ffffff;
+  font-weight: 650;
+}
+
+.message.ai code {
+  background: #151821;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-family: Consolas, monospace;
+  font-size: 14px;
+}
+
+.message.ai pre {
+  overflow-x: auto;
+  background: #151821;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+.message.ai pre code {
+  padding: 0;
+  background: transparent;
+}

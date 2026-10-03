@@ -1,60 +1,117 @@
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import "./App.css";
 
 function App() {
-  // Current text inside input
+  // Current input value
   const [message, setMessage] = useState("");
 
-  // Complete conversation
+  // All chat messages
   const [messages, setMessages] = useState([
     {
       sender: "ai",
-      text: "Hi! 👋 I'm your AI assistant. How can I help you today?",
+      text: "Hi! Sakhil Boss👋 I'm your AI assistant. How can I help you today?",
     },
   ]);
 
-  // Reference to the bottom of the chat
-  const messagesEndRef = useRef(null);
+  // Used for automatic scrolling
+  const chatMessagesRef = useRef(null);
 
-  // Automatically scroll whenever messages change
+  // Automatically scroll to newest message
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    const chatBox = chatMessagesRef.current;
+
+    if (chatBox) {
+      chatBox.scrollTo({
+        top: chatBox.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages]);
 
-  // Send message
-  const handleSend = () => {
-    if (!message.trim()) {
+  // =========================
+  // SEND MESSAGE
+  // =========================
+
+  const handleSend = async () => {
+    const currentMessage = message.trim();
+
+    // Don't send empty messages
+    if (!currentMessage) {
       return;
     }
 
-    const currentMessage = message.trim();
-
-    // User message
+    // Create user message
     const userMessage = {
       sender: "user",
       text: currentMessage,
     };
 
-    // Temporary AI response
-    // Step 11 will replace this with the real backend response.
-    const aiMessage = {
-      sender: "ai",
-      text: "You asked: " + currentMessage,
-    };
-
+    // Show user message immediately
     setMessages((previousMessages) => [
       ...previousMessages,
       userMessage,
-      aiMessage,
     ]);
 
-    // Clear input after sending
+    // Clear input
     setMessage("");
+
+    try {
+      // Send message to Spring Boot
+      const response = await fetch(
+        "http://localhost:8080/api/chat",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            message: currentMessage,
+          }),
+        }
+      );
+
+      // Check backend response
+      if (!response.ok) {
+        throw new Error("Backend request failed");
+      }
+
+      // Convert response to JSON
+      const data = await response.json();
+
+      // Create AI message
+      const aiMessage = {
+        sender: "ai",
+        text: data.response,
+      };
+
+      // Add AI message
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        aiMessage,
+      ]);
+    } catch (error) {
+      console.error("Chat error:", error);
+
+      // Show error inside chat
+      const errorMessage = {
+        sender: "ai",
+        text: "Sorry, I couldn't get a response. Please try again.",
+      };
+
+      setMessages((previousMessages) => [
+        ...previousMessages,
+        errorMessage,
+      ]);
+    }
   };
 
-  // Press Enter to send
+  // =========================
+  // ENTER KEY
+  // =========================
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -69,7 +126,6 @@ function App() {
         {/* ================= HEADER ================= */}
 
         <header className="chat-header">
-
           <div className="brand-logo">
             <span className="brand-logo-text">AI</span>
             <span className="brand-logo-dot"></span>
@@ -83,19 +139,19 @@ function App() {
               <span>Powered by Gemini</span>
             </div>
           </div>
-
         </header>
 
         {/* ================= MESSAGES ================= */}
 
-        <main className="chat-messages">
-
+        <main
+          className="chat-messages"
+          ref={chatMessagesRef}
+        >
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`message-row ${msg.sender}`}
             >
-
               {/* AI Avatar */}
 
               {msg.sender === "ai" && (
@@ -106,9 +162,15 @@ function App() {
 
               {/* Message */}
 
-              <div className={`message ${msg.sender}`}>
-                {msg.text}
-              </div>
+             <div className={`message ${msg.sender}`}>
+                  {msg.sender === "ai" ? (
+                     <ReactMarkdown>
+                       {msg.text}
+                    </ReactMarkdown>
+                ) : (
+                     msg.text
+                    )}
+             </div>
 
               {/* User Avatar */}
 
@@ -117,20 +179,13 @@ function App() {
                   U
                 </div>
               )}
-
             </div>
           ))}
-
-          {/* Invisible element used for automatic scrolling */}
-
-          <div ref={messagesEndRef} />
-
         </main>
 
         {/* ================= INPUT ================= */}
 
         <footer className="input-section">
-
           <div className="chat-input">
 
             <input
@@ -157,7 +212,6 @@ function App() {
           <p className="input-hint">
             Press Enter to send
           </p>
-
         </footer>
 
       </div>
