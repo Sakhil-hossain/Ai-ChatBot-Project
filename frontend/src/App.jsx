@@ -2,13 +2,9 @@
 // 1. IMPORTS
 // =====================================================
 
-// React hooks
 import { useEffect, useRef, useState } from "react";
-
-// Used to display Gemini Markdown properly
 import ReactMarkdown from "react-markdown";
-
-// CSS file
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 
@@ -18,11 +14,10 @@ function App() {
   // 2. STATES
   // =====================================================
 
-  // Stores the text currently typed by the user
+  // Stores current input
   const [message, setMessage] = useState("");
 
-
-  // Stores the complete chat conversation
+  // Stores all chat messages
   const [messages, setMessages] = useState([
     {
       sender: "ai",
@@ -30,80 +25,52 @@ function App() {
     },
   ]);
 
-
-  // true  = AI is generating a response
-  // false = AI is ready
+  // Checks if AI is generating response
   const [isLoading, setIsLoading] = useState(false);
 
 
-
   // =====================================================
-  // 3. REFERENCE FOR AUTO SCROLL
+  // 3. AUTO SCROLL
   // =====================================================
 
-  // Gives us access to the chat message container
   const chatRef = useRef(null);
 
-
-
-  // =====================================================
-  // 4. AUTO SCROLL
-  // =====================================================
-
-  // Runs whenever messages or loading state changes
   useEffect(() => {
-
     if (chatRef.current) {
-
-      // Scroll to the bottom of the chat
       chatRef.current.scrollTop =
         chatRef.current.scrollHeight;
     }
-
   }, [messages, isLoading]);
 
 
-
   // =====================================================
-  // 5. SEND MESSAGE
+  // 4. SEND MESSAGE
   // =====================================================
 
   const handleSend = async () => {
 
-    // Remove extra spaces from user input
     const currentMessage = message.trim();
 
+    // Stop empty or duplicate messages
+    if (!currentMessage || isLoading) return;
 
-    // Don't send:
-    // 1. Empty messages
-    // 2. Another message while AI is loading
-    if (!currentMessage || isLoading) {
-      return;
-    }
-
-
-    // Add user's message to chat
-    setMessages((previousMessages) => [
-      ...previousMessages,
+    // Add user message
+    setMessages((prev) => [
+      ...prev,
       {
         sender: "user",
         text: currentMessage,
       },
     ]);
 
-
-    // Clear the input box
+    // Clear input and start loading
     setMessage("");
-
-
-    // Start loading animation
     setIsLoading(true);
-
 
     try {
 
       // =================================================
-      // 6. CALL SPRING BOOT BACKEND
+      // 5. CALL SPRING BOOT BACKEND
       // =================================================
 
       const response = await fetch(
@@ -115,93 +82,86 @@ function App() {
             "Content-Type": "application/json",
           },
 
-          // Send user message as JSON
           body: JSON.stringify({
             message: currentMessage,
           }),
         }
       );
 
-
-      // If backend returns an error
       if (!response.ok) {
         throw new Error("Request failed");
       }
 
-
-      // Convert backend JSON response
-      // into JavaScript object
       const data = await response.json();
 
 
-
-      // =================================================
-      // 7. ADD AI RESPONSE
-      // =================================================
-
-      setMessages((previousMessages) => [
-        ...previousMessages,
+      // Add AI response
+      setMessages((prev) => [
+        ...prev,
         {
           sender: "ai",
           text: data.response,
         },
       ]);
 
-
-
     } catch (error) {
 
       // =================================================
-      // 8. ERROR HANDLING
+      // 6. ERROR HANDLING
       // =================================================
 
       console.error("Chat Error:", error);
 
-
-      // Show error message inside chat
-      setMessages((previousMessages) => [
-        ...previousMessages,
+      setMessages((prev) => [
+        ...prev,
         {
           sender: "ai",
           text: "Sorry, something went wrong. Please try again.",
         },
       ]);
 
-
     } finally {
 
-      // =================================================
-      // 9. STOP LOADING
-      // =================================================
-
-      // Runs whether request succeeds or fails
+      // Stop loading
       setIsLoading(false);
     }
   };
 
 
-
   // =====================================================
-  // 10. ENTER KEY
+  // 7. ENTER KEY
   // =====================================================
 
   const handleKeyDown = (event) => {
 
-    // Check if user pressed Enter
     if (event.key === "Enter") {
-
-      // Prevent default Enter behavior
       event.preventDefault();
-
-      // Send the message
       handleSend();
     }
   };
 
 
+  // =====================================================
+  // 8. NEW CHAT
+  // =====================================================
+
+  const handleNewChat = () => {
+
+    // Remove previous messages
+    setMessages([
+      {
+        sender: "ai",
+        text: "Hi! 👋 How can I help you today?",
+      },
+    ]);
+
+    // Clear input
+    setMessage("");
+  };
+
 
   // =====================================================
-  // 11. USER INTERFACE
+  // 9. USER INTERFACE
   // =====================================================
 
   return (
@@ -212,13 +172,13 @@ function App() {
 
 
         {/* ===============================================
-            12. HEADER
+            10. HEADER
         =============================================== */}
 
-        <header className="chat-header">
+        <header className="chat-header d-flex align-items-center">
 
-          {/* Chatbot Logo */}
-          <div className="brand-logo">
+          {/* AI Logo */}
+          <div className="brand-logo flex-shrink-0">
             <span className="brand-logo-text">
               AI
             </span>
@@ -226,13 +186,12 @@ function App() {
 
 
           {/* Chatbot Name */}
-          <div className="header-content">
+          <div className="header-content ms-3">
 
             <h1>AI Assistant</h1>
 
             <div className="status">
 
-              {/* Green online dot */}
               <span className="status-dot"></span>
 
               <span>Powered by Gemini</span>
@@ -241,12 +200,26 @@ function App() {
 
           </div>
 
+
+          {/* 
+              Bootstrap ms-auto pushes
+              this button to the far right
+          */}
+
+          <button
+            type="button"
+            className="btn btn-primary ms-auto px-3 py-2"
+            onClick={handleNewChat}
+            disabled={isLoading}
+          >
+            + New Chat
+          </button>
+
         </header>
 
 
-
         {/* ===============================================
-            13. CHAT MESSAGE AREA
+            11. CHAT MESSAGES
         =============================================== */}
 
         <main
@@ -254,8 +227,8 @@ function App() {
           ref={chatRef}
         >
 
+          {/* Display all messages */}
 
-          {/* Loop through all messages */}
           {messages.map((msg, index) => (
 
             <div
@@ -263,8 +236,8 @@ function App() {
               className={`message-row ${msg.sender}`}
             >
 
+              {/* AI Avatar */}
 
-              {/* Show AI avatar only for AI messages */}
               {msg.sender === "ai" && (
 
                 <div className="message-avatar ai-message-avatar">
@@ -274,22 +247,11 @@ function App() {
               )}
 
 
-
-              {/* =========================================
-                  MESSAGE CONTENT
-              ========================================= */}
+              {/* Message */}
 
               <div className={`message ${msg.sender}`}>
 
-
-                {/* 
-                  Gemini returns Markdown.
-
-                  Example:
-                  **Java** becomes bold.
-
-                  ReactMarkdown displays it properly.
-                */}
+                {/* AI messages support Markdown */}
 
                 {msg.sender === "ai" ? (
 
@@ -299,7 +261,6 @@ function App() {
 
                 ) : (
 
-                  // User message doesn't need Markdown
                   msg.text
 
                 )}
@@ -307,8 +268,8 @@ function App() {
               </div>
 
 
+              {/* User Avatar */}
 
-              {/* Show User avatar only for user messages */}
               {msg.sender === "user" && (
 
                 <div className="message-avatar user-message-avatar">
@@ -322,17 +283,13 @@ function App() {
           ))}
 
 
-
           {/* =============================================
-              14. AI LOADING ANIMATION
+              12. AI LOADING
           ============================================= */}
-
-          {/* Only show when isLoading is true */}
 
           {isLoading && (
 
             <div className="message-row ai">
-
 
               {/* AI Avatar */}
 
@@ -341,7 +298,7 @@ function App() {
               </div>
 
 
-              {/* Three animated dots */}
+              {/* Three loading dots */}
 
               <div className="message ai typing-indicator">
 
@@ -358,61 +315,50 @@ function App() {
         </main>
 
 
-
         {/* ===============================================
-            15. INPUT SECTION
+            13. INPUT SECTION
         =============================================== */}
 
         <footer className="input-section">
 
-          <div className="chat-input">
+          {/* Bootstrap flex is used here */}
 
+          <div className="chat-input d-flex align-items-center">
 
             {/* User Input */}
 
             <input
               type="text"
-
-              // Display current input value
+              className="flex-grow-1"
               value={message}
 
-              // Change placeholder while AI is loading
               placeholder={
                 isLoading
                   ? "AI is thinking..."
                   : "Ask me anything..."
               }
 
-              // Update message state while typing
+              // Update input
               onChange={(event) =>
                 setMessage(event.target.value)
               }
 
-              // Detect Enter key
+              // Press Enter to send
               onKeyDown={handleKeyDown}
 
-              // Prevent typing while AI is responding
+              // Prevent typing while AI responds
               readOnly={isLoading}
 
-              // Automatically focus input
               autoFocus
             />
 
 
-
-            {/* =========================================
-                16. SEND BUTTON
-            ========================================= */}
+            {/* Send Button */}
 
             <button
               type="button"
-
-              // Send message when clicked
               onClick={handleSend}
 
-              // Disable when:
-              // 1. Input is empty
-              // 2. AI is loading
               disabled={
                 !message.trim() || isLoading
               }
@@ -423,10 +369,7 @@ function App() {
           </div>
 
 
-
-          {/* =============================================
-              17. INPUT STATUS TEXT
-          ============================================= */}
+          {/* Input Status */}
 
           <p className="input-hint">
 

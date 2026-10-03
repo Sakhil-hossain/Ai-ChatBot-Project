@@ -1,16 +1,19 @@
 /* ==================================================
-   APPLICATION
+   1. APPLICATION
+   Main page background
    ================================================== */
 
 .app {
   min-height: 100vh;
 
+  /* Center chatbot on screen */
   display: flex;
   justify-content: center;
   align-items: center;
 
   padding: 30px;
 
+  /* Dark gradient background */
   background:
     radial-gradient(
       circle at 10% 10%,
@@ -27,7 +30,8 @@
 
 
 /* ==================================================
-   CHAT CONTAINER
+   2. CHAT CONTAINER
+   Main chatbot box
    ================================================== */
 
 .chat-container {
@@ -42,7 +46,6 @@
   background: rgba(17, 20, 30, 0.95);
 
   border: 1px solid rgba(255, 255, 255, 0.08);
-
   border-radius: 24px;
 
   box-shadow:
@@ -54,17 +57,15 @@
 
 
 /* ==================================================
-   HEADER
+   3. HEADER
+   Bootstrap handles:
+   display:flex and align-items:center
    ================================================== */
 
 .chat-header {
   min-height: 90px;
 
-  display: flex;
-  align-items: center;
-
   gap: 15px;
-
   padding: 18px 25px;
 
   background: rgba(255, 255, 255, 0.015);
@@ -74,12 +75,10 @@
 
 
 /* ==================================================
-   UNIQUE AI LOGO
+   4. AI LOGO
    ================================================== */
 
 .brand-logo {
-  position: relative;
-
   width: 50px;
   height: 50px;
 
@@ -87,22 +86,20 @@
   align-items: center;
   justify-content: center;
 
-  flex-shrink: 0;
-
   border-radius: 16px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6366f1,
-      #8b5cf6,
-      #2563eb
-    );
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6,
+    #2563eb
+  );
 
   box-shadow:
     0 8px 25px rgba(99, 102, 241, 0.35),
     inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
+
 
 .brand-logo-text {
   color: white;
@@ -113,33 +110,16 @@
   letter-spacing: -1px;
 }
 
-.brand-logo-dot {
-  position: absolute;
-
-  right: -2px;
-  bottom: -2px;
-
-  width: 12px;
-  height: 12px;
-
-  border: 3px solid #11141e;
-
-  border-radius: 50%;
-
-  background: #22c55e;
-
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
-}
-
 
 /* ==================================================
-   HEADER TEXT
+   5. HEADER TEXT
    ================================================== */
 
 .header-content {
   display: flex;
   flex-direction: column;
 }
+
 
 .header-content h1 {
   margin: 0;
@@ -151,6 +131,9 @@
 
   letter-spacing: -0.3px;
 }
+
+
+/* Powered by Gemini */
 
 .status {
   margin-top: 5px;
@@ -165,6 +148,9 @@
   font-size: 12px;
 }
 
+
+/* Green online dot */
+
 .status-dot {
   width: 7px;
   height: 7px;
@@ -178,7 +164,7 @@
 
 
 /* ==================================================
-   MESSAGE AREA
+   6. MESSAGE AREA
    ================================================== */
 
 .chat-messages {
@@ -198,7 +184,7 @@
 
 
 /* ==================================================
-   MESSAGE ROW
+   7. MESSAGE ROW
    ================================================== */
 
 .message-row {
@@ -210,9 +196,15 @@
   gap: 10px;
 }
 
+
+/* AI message stays left */
+
 .message-row.ai {
   justify-content: flex-start;
 }
+
+
+/* User message stays right */
 
 .message-row.user {
   justify-content: flex-end;
@@ -220,7 +212,7 @@
 
 
 /* ==================================================
-   MESSAGE AVATARS
+   8. MESSAGE AVATARS
    ================================================== */
 
 .message-avatar {
@@ -239,19 +231,24 @@
   font-weight: 800;
 }
 
+
+/* AI Avatar */
+
 .ai-message-avatar {
   color: white;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6366f1,
-      #8b5cf6
-    );
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #8b5cf6
+  );
 
   box-shadow:
     0 5px 15px rgba(99, 102, 241, 0.25);
 }
+
+
+/* User Avatar */
 
 .user-message-avatar {
   color: #cbd5e1;
@@ -263,7 +260,7 @@
 
 
 /* ==================================================
-   MESSAGE BUBBLES
+   9. MESSAGE BUBBLES
    ================================================== */
 
 .message {
@@ -280,6 +277,9 @@
   white-space: pre-wrap;
 }
 
+
+/* AI message */
+
 .message.ai {
   color: #e2e8f0;
 
@@ -287,22 +287,22 @@
 
   border: 1px solid rgba(255, 255, 255, 0.04);
 
-  border-radius:
-    6px 17px 17px 17px;
+  border-radius: 6px 17px 17px 17px;
 }
+
+
+/* User message */
 
 .message.user {
   color: white;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6366f1,
-      #7c3aed
-    );
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #7c3aed
+  );
 
-  border-radius:
-    17px 6px 17px 17px;
+  border-radius: 17px 6px 17px 17px;
 
   box-shadow:
     0 7px 20px rgba(99, 102, 241, 0.18);
@@ -310,7 +310,7 @@
 
 
 /* ==================================================
-   INPUT SECTION
+   10. INPUT SECTION
    ================================================== */
 
 .input-section {
@@ -323,13 +323,12 @@
 
 
 /* ==================================================
-   INPUT BOX
+   11. INPUT BOX
+   Bootstrap handles:
+   display:flex and align-items:center
    ================================================== */
 
 .chat-input {
-  display: flex;
-  align-items: center;
-
   gap: 10px;
 
   padding: 7px;
@@ -345,6 +344,9 @@
     box-shadow 0.2s ease;
 }
 
+
+/* Highlight input when selected */
+
 .chat-input:focus-within {
   border-color: #6366f1;
 
@@ -352,9 +354,10 @@
     0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
-.chat-input input {
-  flex: 1;
 
+/* User input */
+
+.chat-input input {
   min-width: 0;
 
   padding: 11px 13px;
@@ -372,13 +375,25 @@
   font-size: 15px;
 }
 
+
+/* Input placeholder */
+
 .chat-input input::placeholder {
   color: #6b7280;
 }
 
 
+/* Input while AI is responding */
+
+.chat-input input:read-only {
+  cursor: not-allowed;
+
+  opacity: 0.6;
+}
+
+
 /* ==================================================
-   SEND BUTTON
+   12. SEND BUTTON
    ================================================== */
 
 .chat-input button {
@@ -397,12 +412,11 @@
 
   color: white;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6366f1,
-      #7c3aed
-    );
+  background: linear-gradient(
+    135deg,
+    #6366f1,
+    #7c3aed
+  );
 
   cursor: pointer;
 
@@ -412,6 +426,9 @@
     box-shadow 0.2s ease;
 }
 
+
+/* Send button hover */
+
 .chat-input button:hover:not(:disabled) {
   transform: translateY(-2px);
 
@@ -419,9 +436,15 @@
     0 7px 18px rgba(99, 102, 241, 0.3);
 }
 
+
+/* Send button click */
+
 .chat-input button:active:not(:disabled) {
   transform: translateY(0);
 }
+
+
+/* Disabled send button */
 
 .chat-input button:disabled {
   cursor: not-allowed;
@@ -429,15 +452,9 @@
   opacity: 0.3;
 }
 
-.send-icon {
-  font-size: 20px;
-
-  line-height: 1;
-}
-
 
 /* ==================================================
-   INPUT HINT
+   13. INPUT HINT
    ================================================== */
 
 .input-hint {
@@ -452,16 +469,18 @@
 
 
 /* ==================================================
-   SCROLLBAR
+   14. SCROLLBAR
    ================================================== */
 
 .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
 
+
 .chat-messages::-webkit-scrollbar-track {
   background: transparent;
 }
+
 
 .chat-messages::-webkit-scrollbar-thumb {
   background: #353a47;
@@ -469,130 +488,101 @@
   border-radius: 10px;
 }
 
+
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background: #464c5c;
 }
 
 
 /* ==================================================
-   RESPONSIVE
+   15. AI MARKDOWN
+   Formats Gemini responses
    ================================================== */
-
-@media (max-width: 650px) {
-
-  .app {
-    padding: 0;
-  }
-
-  .chat-container {
-    width: 100%;
-    height: 100vh;
-
-    border-radius: 0;
-
-    border: none;
-  }
-
-  .chat-header {
-    min-height: 80px;
-
-    padding: 15px 16px;
-  }
-
-  .brand-logo {
-    width: 45px;
-    height: 45px;
-
-    border-radius: 14px;
-  }
-
-  .chat-messages {
-    padding: 20px 14px;
-
-    gap: 18px;
-  }
-
-  .message {
-    max-width: 80%;
-
-    font-size: 14px;
-  }
-
-  .message-avatar {
-    width: 30px;
-    height: 30px;
-  }
-
-  .input-section {
-    padding: 12px 13px;
-  }
-
-  .input-hint {
-    margin-top: 7px;
-  }
-}
-
-
-/* AI Markdown formatting */
 
 .message.ai p {
   margin: 0 0 10px;
 }
 
+
 .message.ai p:last-child {
   margin-bottom: 0;
 }
 
+
 .message.ai ul,
 .message.ai ol {
   margin: 10px 0;
+
   padding-left: 22px;
 }
+
 
 .message.ai li {
   margin-bottom: 7px;
 }
 
+
 .message.ai strong {
   color: #ffffff;
+
   font-weight: 650;
 }
 
+
+/* Inline code */
+
 .message.ai code {
-  background: #151821;
   padding: 2px 6px;
+
+  background: #151821;
+
   border-radius: 5px;
+
   font-family: Consolas, monospace;
+
   font-size: 14px;
 }
 
+
+/* Code block */
+
 .message.ai pre {
   overflow-x: auto;
-  background: #151821;
-  padding: 14px;
-  border-radius: 10px;
+
   margin: 12px 0;
+
+  padding: 14px;
+
+  background: #151821;
+
+  border-radius: 10px;
 }
+
 
 .message.ai pre code {
   padding: 0;
+
   background: transparent;
 }
 
 
-
-/* ===============================
-   AI TYPING INDICATOR
-   =============================== */
+/* ==================================================
+   16. AI TYPING INDICATOR
+   Three animated dots
+   ================================================== */
 
 .typing-indicator {
   display: flex;
   align-items: center;
+
   gap: 5px;
 
   min-width: 65px;
   min-height: 45px;
 }
+
+
+/* Loading dots */
 
 .typing-indicator span {
   width: 7px;
@@ -605,36 +595,100 @@
   animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-indicator span:nth-child(1) {
-  animation-delay: 0s;
-}
 
 .typing-indicator span:nth-child(2) {
   animation-delay: 0.2s;
 }
 
+
 .typing-indicator span:nth-child(3) {
   animation-delay: 0.4s;
 }
 
+
+/* Loading animation */
+
 @keyframes typing {
+
   0%,
   60%,
   100% {
     transform: translateY(0);
+
     opacity: 0.4;
   }
 
   30% {
     transform: translateY(-6px);
+
     opacity: 1;
   }
 }
 
 
-/* Disabled input */
+/* ==================================================
+   17. RESPONSIVE DESIGN
+   Mobile devices
+   ================================================== */
 
-.chat-input input:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+@media (max-width: 650px) {
+
+  .app {
+    padding: 0;
+  }
+
+
+  .chat-container {
+    width: 100%;
+    height: 100vh;
+
+    border: none;
+
+    border-radius: 0;
+  }
+
+
+  .chat-header {
+    min-height: 80px;
+
+    padding: 15px 16px;
+  }
+
+
+  .brand-logo {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 14px;
+  }
+
+
+  .chat-messages {
+    padding: 20px 14px;
+
+    gap: 18px;
+  }
+
+
+  .message {
+    max-width: 80%;
+
+    font-size: 14px;
+  }
+
+
+  .message-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  .input-section {
+    padding: 12px 13px;
+  }
+
+
+  .input-hint {
+    margin-top: 7px;
+  }
 }
