@@ -201,7 +201,7 @@ const handleCopy = async (text) => {
           {/* Chatbot Name */}
           <div className="header-content ms-3">
 
-            <h1>AI Assistant</h1>
+            <h1>NexaChat-Ai</h1>
 
             <div className="status">
 

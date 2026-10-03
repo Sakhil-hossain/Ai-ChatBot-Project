@@ -1,4 +1,4 @@
-# AI Chatbot Application
+# NexaChat-Ai
 
 A simple full-stack AI chatbot application built using React, Spring Boot, and the Google Gemini API.
 
